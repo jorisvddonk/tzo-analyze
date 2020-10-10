@@ -14,14 +14,14 @@ export interface NumberLiteral {
 
 export interface Func {
   type: "function",
-  children: O[],
+  children: Expression[],
   consumes: number,
   produces: number,
 }
 
 export interface Block {
   type: "block",
-  children: O[],
+  children: Expression[],
   consumes: number,
   produces: number,
 }
