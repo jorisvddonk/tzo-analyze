@@ -1,6 +1,6 @@
 # Tzo-Analyze
 
-Analyze [Tzo](https://github.com/jorisvddonk/tzo) Standard Representation code.
+Analyze [Tzo](https://github.com/jorisvddonk/tzo) code (Standard Representation and ConciseText formats) and emit various details/statistics/formats.
 
 ## Running
 
