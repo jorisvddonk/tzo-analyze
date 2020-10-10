@@ -82,9 +82,16 @@ export class Analyzer {
     if (instr.type === "invoke-function-instruction") {
       const tdef = this.typedefs[instr.functionName];
       if (tdef) {
-        const children = tdef.in.map((t, t_i, arr) => {
-          return this.analyze(input, i - arr.length + t_i);
-        }).filter(z => z !== undefined);
+        let ii = i - 1;
+        let children = [];
+        while (children.length < tdef.in.length) {
+          let iinstr = input[ii];
+          children.unshift(this.analyze(input, ii));
+          if (ii < 0) {
+            throw new Error("Unterminated }!");
+          }
+          ii = this.lowest_i - 1;
+        }
         return {
           type: "function",
           value: instr.functionName,
