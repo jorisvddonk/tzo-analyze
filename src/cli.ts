@@ -4,7 +4,7 @@ import { Analyzer } from "./analyze";
 import { Tokenizer } from "tzo";
 
 program
-  .version('1.0.0')
+  .version('1.0.1')
   .option('--input <path>', "Path to Tzo VMState .json file or .tzoct file")
   .option('--fdef <path...>', "Load additional function definition .json file")
   .option('--output <path>', "Save analyzed .json here, or stdout if '-'", "-")
