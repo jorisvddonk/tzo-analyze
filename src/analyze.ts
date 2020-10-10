@@ -1,41 +1,12 @@
 import { Instruction } from "tzo";
 import 'array-flat-polyfill';
 import { FunctionDefinition, function_typedefs } from "./function_typedefs";
+import { Expression } from "./interfaces";
 
-
-interface StringLiteral {
-  type: "string_literal",
-  value: string,
-  consumes: number,
-  produces: number,
-}
-
-interface NumberLiteral {
-  type: "number_literal",
-  value: number,
-  consumes: number,
-  produces: number,
-}
-
-interface Func {
-  type: "function",
-  children: O[],
-  consumes: number,
-  produces: number,
-}
-
-interface Block {
-  type: "block",
-  children: O[],
-  consumes: number,
-  produces: number,
-}
-
-type O = Func | Block | StringLiteral | NumberLiteral;
 
 export class Analyzer {
   input: Instruction[] = undefined;
-  items = [];
+  items: Expression[] = [];
   lowest_i: number = undefined;
   typedefs: { [key: string]: FunctionDefinition } = {};
 
@@ -51,7 +22,7 @@ export class Analyzer {
     this.items = this.items.filter(i => i !== undefined);
   }
 
-  analyze: (input: Instruction[], i: number) => O = (input, i) => {
+  analyze: (input: Instruction[], i: number) => Expression = (input, i) => {
     let instr = input[i];
     this.lowest_i = Math.min(this.lowest_i, i);
     if (instr.type === "push-number-instruction") {
@@ -133,8 +104,8 @@ export class Analyzer {
     }
   }
 
-  getJSON() {
-    return JSON.stringify(this.items, null, 2);
+  getExpressions() {
+    return this.items;
   }
 
 }

@@ -30,7 +30,7 @@ if (program.input && (program.input.endsWith(".txt") || program.input.endsWith("
 }
 const analyzer = new Analyzer(input, add_Typedefs);
 
-const out = analyzer.getJSON().toString();
+const out = JSON.stringify(analyzer.getExpressions(), null, 2);
 if (program.output === "-") {
   console.log(out);
 } else {
