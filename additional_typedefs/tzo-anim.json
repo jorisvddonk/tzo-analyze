@@ -1,0 +1,24 @@
+{
+  "beginDraw": {
+    "in": [],
+    "out": []
+  },
+  "endDraw": {
+    "in": [],
+    "out": []
+  },
+  "drawFrame": {
+    "in": [
+      "number"
+    ],
+    "out": []
+  },
+  "loadImage": {
+    "in": [
+      "string",
+      "number",
+      "number"
+    ],
+    "out": []
+  }
+}
