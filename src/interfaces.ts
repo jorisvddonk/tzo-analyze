@@ -14,6 +14,7 @@ export interface NumberLiteral {
 
 export interface Func {
   type: "function",
+  value: string,
   children: Expression[],
   consumes: number,
   produces: number,
@@ -21,6 +22,7 @@ export interface Func {
 
 export interface Block {
   type: "block",
+  value: string,
   children: Expression[],
   consumes: number,
   produces: number,
