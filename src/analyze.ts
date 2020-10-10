@@ -61,7 +61,7 @@ export class Analyzer {
         if (ii < 0) {
           throw new Error("Unterminated }!");
         }
-        ii--;
+        ii = this.lowest_i - 1;
       }
       children = children.filter(z => z !== undefined);
       return {
