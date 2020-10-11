@@ -20,7 +20,17 @@
     "in": [
       "string"
     ],
-    "out": []
+    "out": [
+      "number"
+    ]
+  },
+  "optionDisabled": {
+    "in": [
+      "string"
+    ],
+    "out": [
+      "number"
+    ]
   },
   "disableOption": {
     "in": [
