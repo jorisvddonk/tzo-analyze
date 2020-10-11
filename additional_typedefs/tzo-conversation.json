@@ -1,0 +1,19 @@
+{
+  "getResponse": {
+    "in": [],
+    "out": []
+  },
+  "emit": {
+    "in": [
+      "string | number"
+    ],
+    "out": []
+  },
+  "response": {
+    "in": [
+      "string",
+      "number"
+    ],
+    "out": []
+  }
+}
