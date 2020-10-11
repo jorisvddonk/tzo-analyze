@@ -84,7 +84,7 @@ export class Analyzer {
       if (tdef) {
         let ii = i - 1;
         let children = [];
-        while (children.length < tdef.in.length) {
+        while (children.filter(c => c !== undefined && c.type !== "block").length < tdef.in.length) {
           let iinstr = input[ii];
           children.unshift(this.analyze(input, ii));
           if (ii < 0) {
@@ -92,6 +92,7 @@ export class Analyzer {
           }
           ii = this.lowest_i - 1;
         }
+        children = children.filter(f => f !== undefined);
         return {
           type: "function",
           value: instr.functionName,
