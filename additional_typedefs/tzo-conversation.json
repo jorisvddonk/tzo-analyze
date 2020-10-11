@@ -15,5 +15,23 @@
       "number"
     ],
     "out": []
+  },
+  "optionEnabled": {
+    "in": [
+      "string"
+    ],
+    "out": []
+  },
+  "disableOption": {
+    "in": [
+      "string"
+    ],
+    "out": []
+  },
+  "enableOption": {
+    "in": [
+      "string"
+    ],
+    "out": []
   }
 }
