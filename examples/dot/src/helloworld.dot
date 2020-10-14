@@ -1,0 +1,24 @@
+
+    digraph {
+      
+      ordering=out;
+      ranksep=.4;
+      edge [dir="back"];
+      node [shape=box, fixedsize=false, fontsize=12, fontname="Helvetica-bold", fontcolor="black"
+          width=.25, height=.25, color="black", fillcolor="white", style="filled, solid, bold"];
+      edge [arrowsize=.5, color="black", style="bold"]
+
+      n0 [label="rconcat", fontcolor="blue"]
+n1 [label="<PROGRAM>", fontcolor="darkgreen"]
+n2 [label="\"Hello\"", fontcolor="black"]
+n3 [label="rconcat", fontcolor="blue"]
+n4 [label="\",\"", fontcolor="black"]
+n5 [label="\" world\"", fontcolor="black"]
+      n1 -> n0
+n0 -> n2
+n0 -> n3
+n3 -> n4
+n3 -> n5
+
+    }
+    

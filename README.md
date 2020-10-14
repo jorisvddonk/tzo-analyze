@@ -23,6 +23,14 @@ To run the unit tests: `npm test`
 
 (blue: function/opcode, black: literal, purple: block, green: root)
 
+### Hello world
+
+```
+"Hello" "," " world" rconcat rconcat
+```
+
+![hello world example](./examples/dot/helloworld.svg)
+
 ### if/else
 
 ```
