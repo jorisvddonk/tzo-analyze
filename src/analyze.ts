@@ -2,6 +2,7 @@ import { Instruction } from "tzo";
 import 'array-flat-polyfill';
 import { FunctionDefinition, function_typedefs } from "./function_typedefs";
 import { Block, Expression, Func, NumberLiteral, StringLiteral } from "./interfaces";
+import { isRegExp } from "util";
 
 
 export class Analyzer {
@@ -165,6 +166,74 @@ export class Analyzer {
 
   getExpressions() {
     return this.expressions;
+  }
+
+  getDot() {
+    const boxes = [];
+    const lines = [];
+
+    const remainingExpressions: { expression: Expression, parent: Expression | null }[] = this.expressions.map(e => ({ parent: null, expression: e }));
+    let i = 0;
+
+    const expMap = new Map<Expression | null, number>();
+
+    function generateLine(src: Expression | null, dest: Expression) {
+      generateBox(src);
+      generateBox(dest);
+      lines.push(`n${expMap.get(src)} -> n${expMap.get(dest)}`); // note: edge direction is 'back'.
+    }
+
+    function generateBox(exp: Expression | null) {
+      if (expMap.has(exp)) {
+        return
+      }
+      expMap.set(exp, i);
+      let label = "";
+      let color = "black";
+      if (exp === null) {
+        color = "darkgreen";
+        label = "<PROGRAM>";
+      } else if (exp.type === "number_literal") {
+        label = exp.value.toString();
+      } else if (exp.type === "string_literal") {
+        label = `\\"${exp.value.replace(/\"/g, '\\"')}\\"`;
+      } else if (exp.type === "block") {
+        color = "purple";
+        label = exp.value;
+      } else if (exp.type === "function") {
+        color = "blue";
+        label = exp.value;
+      }
+      boxes.push(`n${i} [label="${label}", fontcolor="${color}"]`);
+      i += 1;
+    }
+
+    while (remainingExpressions.length > 0) {
+      const task = remainingExpressions.shift();
+      generateBox(task.expression);
+      generateLine(task.parent, task.expression)
+      if (task.expression.type === "block" || task.expression.type === "function" && task.expression.children && task.expression.children.length > 0) {
+        task.expression.children.forEach(c => {
+          remainingExpressions.push({ expression: c, parent: task.expression });
+        });
+      }
+    }
+
+    return `
+    digraph {
+      
+      ordering=out;
+      ranksep=.4;
+      edge [dir="back"];
+      node [shape=box, fixedsize=false, fontsize=12, fontname="Helvetica-bold", fontcolor="black"
+          width=.25, height=.25, color="black", fillcolor="white", style="filled, solid, bold"];
+      edge [arrowsize=.5, color="black", style="bold"]
+
+      ${boxes.join('\n')}
+      ${lines.join('\n')}
+
+    }
+    `;
   }
 
 }
