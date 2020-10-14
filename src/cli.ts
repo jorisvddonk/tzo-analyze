@@ -1,13 +1,14 @@
 import fs from "fs";
 import program from "commander";
 import { Analyzer } from "./analyze";
-import { Tokenizer } from "tzo";
+import { Tokenizer, TzoVMState } from "tzo";
 
 program
   .version('1.0.4')
   .option('--input <path>', "Path to Tzo VMState .json file or .tzoct file")
   .option('--fdef <path...>', "Load additional function definition .json file")
   .option('--output <path>', "Save analyzed .json here, or stdout if '-'")
+  .option('--dot <path>', "Save .dot file here")
   .parse(process.argv);
 
 let add_Typedefs = {};
@@ -35,4 +36,9 @@ if (program.output === "-") {
   console.log(out);
 } else if (program.output !== undefined) {
   fs.writeFileSync(program.output, out);
+}
+
+
+if (program.dot) {
+  fs.writeFileSync(program.dot, analyzer.getDot().toString());
 }
