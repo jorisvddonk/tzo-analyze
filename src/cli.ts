@@ -7,7 +7,7 @@ program
   .version('1.0.4')
   .option('--input <path>', "Path to Tzo VMState .json file or .tzoct file")
   .option('--fdef <path...>', "Load additional function definition .json file")
-  .option('--output <path>', "Save analyzed .json here, or stdout if '-'", "-")
+  .option('--output <path>', "Save analyzed .json here, or stdout if '-'")
   .parse(process.argv);
 
 let add_Typedefs = {};
@@ -33,6 +33,6 @@ const analyzer = new Analyzer(input, add_Typedefs);
 const out = JSON.stringify(analyzer.getExpressions(), null, 2);
 if (program.output === "-") {
   console.log(out);
-} else {
+} else if (program.output !== undefined) {
   fs.writeFileSync(program.output, out);
 }
