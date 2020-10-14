@@ -9,6 +9,7 @@ program
   .option('--fdef <path...>', "Load additional function definition .json file")
   .option('--output <path>', "Save analyzed .json here, or stdout if '-'")
   .option('--dot <path>', "Save .dot file here")
+  .option('--outvm <path>', "Save VMState .json file here")
   .parse(process.argv);
 
 let add_Typedefs = {};
@@ -38,6 +39,17 @@ if (program.output === "-") {
   fs.writeFileSync(program.output, out);
 }
 
+if (program.outvm) {
+  fs.writeFileSync(program.outvm, JSON.stringify({
+    programCounter: 0,
+    exit: false,
+    pause: false,
+    labelMap: {},
+    stack: [],
+    context: {},
+    programList: input
+  } as TzoVMState, null, 2));
+}
 
 if (program.dot) {
   fs.writeFileSync(program.dot, analyzer.getDot().toString());
