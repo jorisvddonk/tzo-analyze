@@ -29,7 +29,7 @@ To run the unit tests: `npm test`
 "Hello" "," " world" rconcat rconcat
 ```
 
-![hello world example](./examples/dot/helloworld.svg)
+![hello world example](./examples/helloworld.svg)
 
 ### if/else
 
@@ -41,4 +41,4 @@ To run the unit tests: `npm test`
 }
 ```
 
-![if/else example](./examples/dot/ifelse.svg)
+![if/else example](./examples/ifelse.svg)

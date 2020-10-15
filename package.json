@@ -9,7 +9,6 @@
     "build": "tsc",
     "test": "jest",
     "start": "ts-node src/cli.ts",
-    "render-dot": "ts-node misc/render-dot.ts",
     "ts-node": "ts-node"
   },
   "bin": {
