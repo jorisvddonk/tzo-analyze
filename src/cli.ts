@@ -1,7 +1,7 @@
 import fs from "fs";
 import program from "commander";
 import { Analyzer } from "./analyze";
-import { Tokenizer, TzoVMState } from "tzo";
+import { Instruction, Tokenizer, TzoVMState } from "tzo";
 import { graphviz } from "node-graphviz";
 
 program
@@ -22,7 +22,7 @@ if (program.fdef) {
   }
 }
 
-let input = [];
+let input: Instruction[] = [];
 if (program.input && program.input.endsWith(".json")) {
   const input_file = JSON.parse(fs.readFileSync(program.input).toString());
   input = input_file.programList;
@@ -30,7 +30,7 @@ if (program.input && program.input.endsWith(".json")) {
 if (program.input && (program.input.endsWith(".txt") || program.input.endsWith(".tzoct"))) {
   const input_file = fs.readFileSync(program.input).toString();
   const tokenizer = new Tokenizer();
-  input = tokenizer.transform(tokenizer.tokenize(input_file)).instructions;
+  input = tokenizer.transform(tokenizer.tokenize(input_file));
 }
 const analyzer = new Analyzer(input, add_Typedefs);
 

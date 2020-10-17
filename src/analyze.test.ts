@@ -14,7 +14,7 @@ function AnalyzeConciseTextCode(codeBlock: string, initialLabelMap?: LabelMap) {
     initialLabelMap = {};
   }
   const tokenizer = new Tokenizer();
-  const { instructions } = tokenizer.transform(tokenizer.tokenize(codeBlock));
+  const instructions = tokenizer.transform(tokenizer.tokenize(codeBlock));
   const analyzer = new Analyzer(instructions);
   return analyzer.getExpressions();
 }
