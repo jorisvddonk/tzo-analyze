@@ -117,15 +117,19 @@ export const function_typedefs: { [key: string]: FunctionDefinition } = {
     out: ["string"],
   },
   "concat": {
-    in: ["string", "string"],
+    in: ["string | number", "string | number"],
     out: ["string"],
   },
   "rconcat": {
-    in: ["string", "string"],
+    in: ["string | number", "string | number"],
     out: ["string"],
   },
   "randInt": {
     in: ["number"],
     out: ["number"],
+  },
+  "stdout": {
+    in: ["string | number"],
+    out: [],
   },
 }
