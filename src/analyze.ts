@@ -171,7 +171,7 @@ export class Analyzer {
     return this.expressions;
   }
 
-  getDot() {
+  getTreeAsDot() {
     const boxes = [];
     const lines = [];
 

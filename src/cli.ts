@@ -54,10 +54,10 @@ if (program.outvm) {
 }
 
 if (program.dot) {
-  fs.writeFileSync(program.dot, analyzer.getDot().toString());
+  fs.writeFileSync(program.dot, analyzer.getTreeAsDot().toString());
 }
 if (program.svg) {
-  graphviz.dot(analyzer.getDot().toString(), 'svg').then(result => {
+  graphviz.dot(analyzer.getTreeAsDot().toString(), 'svg').then(result => {
     fs.writeFileSync(program.svg, result, 'binary');
   }).catch(console.error);
 }
