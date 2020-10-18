@@ -11,6 +11,8 @@ program
   .option('--output <path>', "Save analyzed .json here, or stdout if '-'")
   .option('--dot <path>', "Save syntax tree .dot file here")
   .option('--svg <path>', "Save syntax tree .svg file here")
+  .option('--plist-dot <path>', "Save program list .dot file here")
+  .option('--plist-svg <path>', "Save program list .svg file here")
   .option('--outvm <path>', "Save VMState .json file here")
   .parse(process.argv);
 
@@ -59,5 +61,14 @@ if (program.dot) {
 if (program.svg) {
   graphviz.dot(analyzer.getTreeAsDot().toString(), 'svg').then(result => {
     fs.writeFileSync(program.svg, result, 'binary');
+  }).catch(console.error);
+}
+
+if (program.plistDot) {
+  fs.writeFileSync(program.plistDot, analyzer.getProgramListAsDot().toString());
+}
+if (program.plistSvg) {
+  graphviz.dot(analyzer.getProgramListAsDot().toString(), 'svg').then(result => {
+    fs.writeFileSync(program.plistSvg, result, 'binary');
   }).catch(console.error);
 }

@@ -206,8 +206,6 @@ export class Analyzer {
       } else if (exp.type === "function") {
         color = "blue";
         label = exp.value;
-      } else {
-        console.log("WAT", exp)
       }
 
       // Escape all quotes and special characters interpreted by the "record" type
@@ -253,6 +251,41 @@ export class Analyzer {
 
     }
     `;
+  }
+
+  getProgramListAsDot() {
+    function getRow(instr: Instruction, index: number) {
+      let label = "";
+      let color = "black";
+      if (instr === null) {
+        color = "darkgreen";
+        label = "<PROGRAM>";
+      } else if (instr.type === "push-number-instruction") {
+        label = instr.value.toString();
+      } else if (instr.type === "push-string-instruction") {
+        label = `"${instr.value}"`;
+      } else if (instr.type === "invoke-function-instruction") {
+        color = "blue";
+        label = instr.functionName;
+      }
+      label = label.replace(/\</g, '&lt;');
+      label = label.replace(/\>/g, '&gt;');
+      return `<TR><TD BGCOLOR="lightgray">${index}</TD><TD ALIGN="LEFT"><FONT COLOR="${color}">${label}</FONT></TD><TD>${instr.label || ""}</TD></TR>\n`;
+    }
+
+    return `
+    digraph G {
+      ordering=out;
+      ranksep=.4;
+      edge [dir="back"];
+      node [shape=record, fixedsize=false, fontsize=12, fontname="Helvetica-bold", fontcolor="black"
+          width=.25, height=.25, color="black", fillcolor="white", style="filled, solid, bold"];
+      edge [arrowsize=.5, color="black", style="bold"]
+      
+      programlist [shape=plaintext label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+        ${this.input.map((instr, index) => getRow(instr, index)).join("")}
+      </TABLE>>]
+    }`;
   }
 
 }
