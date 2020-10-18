@@ -2,7 +2,6 @@ import { Instruction } from "tzo";
 import 'array-flat-polyfill';
 import { FunctionDefinition, function_typedefs } from "./function_typedefs";
 import { Block, Expression, Func, NumberLiteral, StringLiteral } from "./interfaces";
-import { isRegExp } from "util";
 
 
 export class Analyzer {
@@ -64,6 +63,7 @@ export class Analyzer {
       return {
         type: "number_literal",
         value: instr.value,
+        label: instr.label,
         consumes: 0,
         produces: 1
       } as NumberLiteral;
@@ -73,6 +73,7 @@ export class Analyzer {
       return {
         type: "string_literal",
         value: instr.value,
+        label: instr.label,
         consumes: 0,
         produces: 1
       } as StringLiteral;
@@ -111,6 +112,7 @@ export class Analyzer {
       return {
         type: "block",
         value: "{}",
+        label: instr.label,
         children,
         consumes: children.reduce((memo, c) => {
           return memo + c.consumes;
@@ -146,6 +148,7 @@ export class Analyzer {
         return {
           type: "function",
           value: instr.functionName,
+          label: instr.label,
           children,
           consumes: tdef.in.length,
           children_consumes: children.reduce((memo, c) => {
@@ -196,14 +199,30 @@ export class Analyzer {
       } else if (exp.type === "number_literal") {
         label = exp.value.toString();
       } else if (exp.type === "string_literal") {
-        label = `\\"${exp.value.replace(/\"/g, '\\"')}\\"`;
+        label = `"${exp.value}"`;
       } else if (exp.type === "block") {
         color = "purple";
         label = exp.value;
       } else if (exp.type === "function") {
         color = "blue";
         label = exp.value;
+      } else {
+        console.log("WAT", exp)
       }
+
+      // Escape all quotes and special characters interpreted by the "record" type
+      label = label.replace(/\"/g, '\\"');
+      label = label.replace(/\|/g, '\\|');
+      label = label.replace(/\{/g, '\\{');
+      label = label.replace(/\}/g, '\\}');
+      label = label.replace(/\</g, '\\<');
+      label = label.replace(/\>/g, '\\>');
+
+      // If there is a label for this expression, include it!
+      if (exp !== null && exp.label !== undefined) {
+        label = `{ ${label} | #${exp.label} }`;
+      }
+
       boxes.push(`n${i} [label="${label}", fontcolor="${color}"]`);
       i += 1;
     }
@@ -225,7 +244,7 @@ export class Analyzer {
       ordering=out;
       ranksep=.4;
       edge [dir="back"];
-      node [shape=box, fixedsize=false, fontsize=12, fontname="Helvetica-bold", fontcolor="black"
+      node [shape=record, fixedsize=false, fontsize=12, fontname="Helvetica-bold", fontcolor="black"
           width=.25, height=.25, color="black", fillcolor="white", style="filled, solid, bold"];
       edge [arrowsize=.5, color="black", style="bold"]
 

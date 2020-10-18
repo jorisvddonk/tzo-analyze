@@ -1,31 +1,29 @@
-export interface StringLiteral {
+export interface BaseExpression {
+  consumes: number,
+  produces: number,
+  label?: string,
+}
+
+export interface StringLiteral extends BaseExpression {
   type: "string_literal",
   value: string,
-  consumes: number,
-  produces: number,
 }
 
-export interface NumberLiteral {
+export interface NumberLiteral extends BaseExpression {
   type: "number_literal",
   value: number,
-  consumes: number,
-  produces: number,
 }
 
-export interface Func {
+export interface Func extends BaseExpression {
   type: "function",
   value: string,
   children: Expression[],
-  consumes: number,
-  produces: number,
 }
 
-export interface Block {
+export interface Block extends BaseExpression {
   type: "block",
   value: string,
   children: Expression[],
-  consumes: number,
-  produces: number,
 }
 
 export type Expression = Func | Block | StringLiteral | NumberLiteral;
